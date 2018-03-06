@@ -1,0 +1,112 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <style type="text/css">
+            body,
+            html {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                font-family: "微软雅黑";
+                font-family: "微软雅黑";
+            }
+            #allmap {
+                width: 100%;
+                height: 85%;
+            }
+        </style>
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=8v4TCodlCcngnI6Y9XNU8M5eZqGEcsfl"></script>
+        <title>地图单击事件</title>
+    </head>
+    <body>
+        <div id="allmap"></div>
+        <div id="Now-result" style="margin-top: 5px;">
+            <label style="margin-left:50px;">站名:</label>
+            <input id="StationName" type="text" style="width:10%; margin-left:10px;border-radius:5px; "/>
+    
+            <label style="margin-left:80px">经度:</label>
+            <input id="Nowlng" type="text" style="width:10%;  margin-left: 10px;border-radius:5px; "  disabled="disabled"/>
+            <label style="margin-left:80px">纬度:</label>
+            <input id="Nowlat" type="text" style="width:10%;  margin-left: 10px;border-radius:5px; "  disabled="disabled"/>
+            <input type="button" value="获取经纬度" onclick="theLocation('StationName','Nowlng','Nowlat')" style="width:10%; margin-left: 68px;border-radius:5px;background-color:#f0f0f0  "/>
+        </div>
+     
+        <div style="margin-top: 5px;">
+        	<label style="margin-left:16px;">站英文名:</label>
+            <input id="EnName" type="text" style="width:10%; margin-left:11px;border-radius:5px; "/>
+            <label style="margin-left:49px;">停留时间:</label>
+            <input id="StopTime" type="text" style="width:10%;  margin-left: 10px;border-radius:5px; "/>
+            <label style="margin-left:49px;">上一站名:</label>
+            <input id="LastStationName" type="text" style="width:10%;  margin-left: 10px;border-radius:5px; "/>
+            
+            <input type="button" value="确认插入站点" onclick="HqDom()" style="width:10%; margin-left: 68px;border-radius:5px;background-color:#f0f0f0 "/>
+        </div>
+    </body>
+    </html>
+    <script type="text/javascript">
+        // 百度地图API功能
+        var map = new BMap.Map("allmap");
+        map.enableScrollWheelZoom(); //启用滚轮放大缩小，默认禁用
+        map.enableContinuousZoom(); //启用地图惯性拖拽，默认禁用
+        map.centerAndZoom(new BMap.Point(121.628572, 29.866033), 12); //宁波
+        //map.centerAndZoom("宁波", 12); 
+        map.addControl(new BMap.OverviewMapControl({
+            isOpen: true,
+            anchor: BMAP_ANCHOR_BOTTOM_RIGHT
+        })); //右下角，打开
+        var localSearch = new BMap.LocalSearch(map);
+    
+        /*function showInfo(e) {
+            alert(e.point.lng + ", " + e.point.lat);
+            document.getElementById("lng").innerText = e.point.lng;  
+            document.getElementById("lat").innerText = e.point.lat;  
+        }
+        map.addEventListener("click", showInfo);
+    */
+        function theLocation(obj1, obj2, obj3) {
+            var keyword = document.getElementById(obj1).value;
+            if (keyword != "") {
+                //map.centerAndZoom(city,11);      // 用城市名设置地图中心点
+                map.clearOverlays(); //清空原来的标注
+                //var keyword = document.getElementById("text_").value;
+                localSearch.setSearchCompleteCallback(function (searchResult) {
+                    var poi = searchResult.getPoi(0);
+                    // document.getElementById("result_").value = poi.point.lng + "," + poi.point.lat;
+                    document.getElementById(obj2).value = poi.point.lng;
+                    document.getElementById(obj3).value = poi.point.lat;
+                    map.centerAndZoom(poi.point, 12);
+                    var marker = new BMap.Marker(new BMap.Point(poi.point.lng, poi.point.lat)); // 创建标注，为要查询的地方对应的经纬度
+                    map.addOverlay(marker);
+                });
+                localSearch.search(keyword);
+            }
+            else{
+            	alert("请输入要添加的站名")
+            }
+        }
+    
+        function HqDom() {
+            var staname = document.getElementById("StationName").value;
+            var staEnname = document.getElementById("EnName").value;
+            var lng = parseFloat(document.getElementById("Nowlng").value);
+            var lat = parseFloat(document.getElementById("Nowlat").value);
+            var stopTime = parseInt(document.getElementById("StopTime").value);
+            var Laststaname = document.getElementById("LastStationName").value;
+            if (isNaN(lng) && isNaN(lat)) {
+            	alert("请获取添加站点的经纬度");
+            }
+            if(staEnname == ""){
+            	alert("请添加站点的站英文名");
+            }
+           	if(isNaN(stopTime)){
+           		alert("请添加该站点的停靠时间");
+           	}
+           	if(Laststaname == ""){
+           		alert("请添加该站点的上一站名");
+           	}
+           	else{
+           		window.external.ShowMessage(staname, staEnname, lng, lat, stopTime, Laststaname);
+           	}
+        }
+    </script>

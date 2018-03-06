@@ -1,0 +1,12 @@
+E:\桌面文件\c#\c#程序\train\train\obj\Debug\train.csprojResolveAssemblyReference.cache
+E:\桌面文件\c#\c#程序\train\train\obj\Debug\train.Form1.resources
+E:\桌面文件\c#\c#程序\train\train\obj\Debug\train.Form2.resources
+E:\桌面文件\c#\c#程序\train\train\obj\Debug\train.Form3.resources
+E:\桌面文件\c#\c#程序\train\train\obj\Debug\train.Properties.Resources.resources
+E:\桌面文件\c#\c#程序\train\train\obj\Debug\train.csproj.GenerateResource.Cache
+E:\桌面文件\c#\c#程序\train\train\bin\Debug\train.exe.config
+E:\桌面文件\c#\c#程序\train\train\bin\Debug\train.exe
+E:\桌面文件\c#\c#程序\train\train\bin\Debug\train.pdb
+E:\桌面文件\c#\c#程序\train\train\bin\Debug\TTS.pdb
+E:\桌面文件\c#\c#程序\train\train\obj\Debug\train.exe
+E:\桌面文件\c#\c#程序\train\train\obj\Debug\train.pdb
